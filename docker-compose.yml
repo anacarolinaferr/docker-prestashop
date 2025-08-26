@@ -21,6 +21,7 @@ services:
       - ./php/php.ini:/usr/local/etc/php/php.ini
       - ${CERT_PATH}:/certs/cert.pem
       - ${CERT_KEY_PATH}:/certs/cert.key
+      - ./mercadopago:/var/www/html/modules/mercadopago
     networks:
       - prestashop_network
     extra_hosts:
@@ -47,6 +48,16 @@ services:
       - "8025:8025"
     networks:
       - prestashop_network
+
+  adminer:
+    image: adminer:latest
+    container_name: prestashop_adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    networks:
+      - prestashop_network
+    depends_on:
+      - mysql
 
 networks:
   prestashop_network:
